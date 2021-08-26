@@ -1,0 +1,7 @@
+****open-jdk 1.8 설치
+# yum install java-1.8.0-openjdk
+# yum install java-1.8.0-openjdk-devel
+
+//환경변수 등록
+# readlink -f /usr/bin/java
+/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.242.b08-0.el7_7.x86_64/jre/bin/java
