@@ -1,0 +1,83 @@
+자료출처
+https://evan-moon.github.io/2019/07/25/git-tutorial/
+
+clone
+clone은 말 그대로 리모트 서버의 레파지토리에서 클라이언트로 파일을 복붙하는 행위를 말한다. 
+$ cd ~/dev/evan # 원하는 작업 디렉토리로 이동
+$ git clone https://github.com/evan-moon/test-repo.git
+
+pull
+pull 명령어는 리모트 서버의 최신 소스를 가져와서 로컬 소스에 병합(Merge)해주는 명령어
+$ git pull # 현재 내 로컬 브랜치와 같은 이름을 가진 리모트 서버 브랜치가 타겟
+$ git pull origin master # origin 리모트 서버의 master 브랜치가 타겟
+
+fetch
+fetch는 리모트 서버의 최신 이력을 내 클라이언트로 가져오되 병합은 하지 않는 명령어이다.
+$ git fetch
+
+
+add
+$ git add . # 현재 디렉토리의 모든 변경사항을 스테이지에 올린다
+$ git add ./src/components # components 디렉토리의 모든 변경사항을 스테이지에 올린다
+$ git add ./src/components/Test.vue # 특정 파일의 변경사항만 스테이지에 올린다
+$ git add -p # 변경된 사항을 하나하나 살펴보면서 스테이지에 올린다
+
+commit
+$ git log --graph
+
+push
+커밋을 통해 포장된 변경 사항들은 push 명령어를 사용하여 리모트 서버로 업로드 된다. 
+$ git push origin master # origin 리모트 서버의 master 브랜치로 푸쉬해줘!
+Git은 브랜치를 자동으로 추적할 수 있는 기능 또한 제공해준다.
+$ git push --set-upstream origin master
+
+
+
+자료출처
+https://evan-moon.github.io/2019/07/28/git-tutorial-advanced/
+
+Merge
+머지(Merge)는 제일 기본적인 브랜치 병합 기능으로, 합치려고 하는 대상 브랜치의 변경 사항을 타겟 브랜치에 모두 반영하면서 머지 커밋(Merge commit)을 남긴다.
+$ git checkout master
+$ git merge feature
+
+Merge squash
+이번에는 두 개의 브랜치를 병합할 때 사용하는 머지 명령어의 --squash 옵션을 한번 알아보자. --squash 옵션은 해당 브랜치의 커밋 전체를 통합한 커밋을 타겟 브랜치에 머지하는 옵션이다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
