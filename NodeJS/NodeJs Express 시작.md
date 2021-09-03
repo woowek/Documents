@@ -55,8 +55,10 @@ app.listen(port, () => console.log(`Example app listening at http://localhost:${
 
 >NodeJS vs Express
 ---
+- Node js : createServer를 사용하고 그안에서 처리
+- Express : express 모듈을 불러오고 app.함수를 가지고처리
++ Node.js
 ```js
-//Node js 는 createServer를 사용하고 그안에서 처리 
 var http = require('http');
 var url = require('url');
 var app = http.createServer(function(request,response){
@@ -71,8 +73,8 @@ var app = http.createServer(function(request,response){
      else if(pathname === '/delete_process'){..코드생략 }
      else { response.writeHead(404); response.end('not found') } //에러처리
  ```
++ Express
 ```js
-//Express 는 express 모듈을 불러오고 app.함수를 가지고처리 
 const express = require('express')        
 const app = express()
 app.get('/', function (request, response) {..코드생략 }
