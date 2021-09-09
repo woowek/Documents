@@ -1,6 +1,6 @@
 함수
 ===
-춡처
+출처
 
 https://nykim.work/34
 
