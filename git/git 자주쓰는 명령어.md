@@ -35,7 +35,7 @@ git 자주쓰는 명령어
     ```
     ex)
     ```bash
-    $git clone administrator@10.0.110.85:d/git/ezCareRVacc
+    $git clone administrator@10.0.102.105:d:git/ezCareRVacc
     ```
 - status
     - 상태 확인
