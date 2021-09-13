@@ -102,5 +102,33 @@ git 자주쓰는 명령어
     $git fetch --all
     $git reset --hard origin/master
     ```
-
 >brench
+---
+- branch 생성
+    ```bash
+    $git branch woowek
+    $git branch
+    ```
+- branch 체크아웃
+    ```bash
+    $git checkout woowek
+    ```
+- add, commit
+    ```bash
+    $git add .
+    $git commit -m "branch Test"
+    ```
+- master 이동 후 merge
+    ```bash
+    $git checkout master
+    $git merge woowek
+    ```
+- branch 삭제
+    ```bash
+    $git branch -d woowek
+    ```
+
+
+
+
+
