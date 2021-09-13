@@ -1,8 +1,26 @@
 git 자주쓰는 명령어
 ===
 처음 git repogitory 구성 시 쓴거
-
->초기 구성
+>초기 저장소 구성
+---
+- 저장소
+    - git 저장소 설정
+    - 저장소 폴더 생성 후 이동 후 명령어 입력
+    ```bash
+    $git init --bare
+    ```
+- 로컬 작업 영역
+    - remote add
+    ```bash
+    $git remote add origin administrator@10.0.102.105:d:git/ezCareRVacc.git
+    ```
+    - add, commit, push
+    ```bash
+    $git add .
+    $git commit -m "init"
+    $git push origin master
+    ```
+>init, add, commit, push
 ---
 - init
     - 저장소 폴더의 git 구성 초기화
@@ -11,7 +29,6 @@ git 자주쓰는 명령어
     ```bash
     $git init
     ```
-
 - add
     - 파일 이동 후 add, commit로 repogitory 구성
     - add . 쓰면 변경된 모든 파일이 add
@@ -19,14 +36,30 @@ git 자주쓰는 명령어
     ```bash
     $git add .
     ```
-
 - commit
     - add한 내용 commit
+    - ex) init 메시지로 커밋
     ```bash
-    $git commit
+    $git commit -m "init"
     ```
-
->초기 구성 후
+- push
+    - commit 한 내용 저장소로 push
+    ```bash
+    $git push origin master
+    ```
+>fatch, pull
+---
+- fatch
+    - 저장소 적용 내용 가져오기
+    ```bash
+    $git fatch --all
+    ```
+- pull
+    - 저장소 내용을 가져오기
+    ```bash
+    $git pull origin master
+    ```
+>기타
 ---
 - clone
     - 복제를 원하는 곳으로 가서 명령어 입력
@@ -60,6 +93,14 @@ git 자주쓰는 명령어
     - 변경점 확인
     - 범위 정할 시 -p 뒤에 -범위 입력
     ```bash
-    $git log -p
+    $git log -p -1
     ```
+>오류사항 처리
+---
+- pull 안될때
+    ```bash
+    $git fetch --all
+    $git reset --hard origin/master
+    ```
+
 >brench
