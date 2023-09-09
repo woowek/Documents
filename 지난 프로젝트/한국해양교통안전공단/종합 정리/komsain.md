@@ -24,13 +24,27 @@ public Object getAuthenticatedUser() {
 >화면구성
 ---
     * 메인
+
+<img src="./img/메인화면.png" width="50%" height="50%"/>
+
+1. 
+
+
+
     * 메뉴 화면 공통
+
 >선박검사 처리 로직
 ---
+
+
 >전자결재 연동
 ---
+
+
 >외부 솔루션
 ---
+
+
 1. SSO
     * komsain, 그룹웨어, ERP, E감사, CBTES SSO 연동
 2. ozReport
