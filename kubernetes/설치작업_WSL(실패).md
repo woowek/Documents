@@ -3,6 +3,11 @@
 --->WSL에서는 docker 및 클러스터 작업이 안된다.. 나중에 개인적으로 해봐야겠다.
 
 
+- wsl - ubuntu 환경에서 systemd 사용하도록 변경
+* 출처 : https://learn.microsoft.com/ko-kr/windows/wsl/systemd
+* 우분투 지우고 재실행하니까 된다....
+
+
 - 일단.. WSL로 설치된 ubuntu로 kubectl 설치를 시도해본다.
 0. 출처 : https://kubernetes.io/ko/docs/tasks/tools/install-kubectl-linux/
 1. 리눅스에서 curl을 사용하여 kubectl 바이너리 설치
