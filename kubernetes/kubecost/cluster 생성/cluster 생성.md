@@ -1,11 +1,14 @@
 1. 테스트 환경
 
-
-
 2. k3s cluster
-    - minikube
-
-
+    - 마스터노드 설치 : curl -sfL https://get.k3s.io | sh -
+    - 클러스터 토큰 : cat /var/lib/rancher/k3s/server/node-token
+    - 워커노드 설치 : curl -sfL https://get.k3s.io | K3S_URL=https://<마스터 노드 IP>:6443 K3S_TOKEN=<클러스터 토큰> sh -
+    - config 설정
+        * 경로 : /etc/rancher/k3s/k3s.yaml
+        * 이걸 복사해 ip 바꾸고 workernode에 넣는다.
+    - workerNode 재설치
+        * /usr/local/bin/k3s-uninstall.sh
 
 3. k3s 설치
     - curl -sfL https://get.k3s.io | sh -
@@ -57,11 +60,6 @@
         - 포트포워딩 하라는데 그냥 analyzer nodeport 등록했다.
     - 업데이트
         * helm repo update && helm upgrade kubecost kubecost/cost-analyzer -n kubecost
-    - 
-
-
-
-
 
 
 5. 비용
