@@ -1,0 +1,26 @@
+auth:
+  rootPassword: "루트계정 암호"
+  database: 데이터베이스명
+  username: 기본 사용자 계정
+  password: "기본 사용자 계정 암호"
+
+primary:
+  service:
+    type: NodePort
+    nodePorts:
+      mysql: "노드포트 번호"
+  nodeSelector:
+    kubernetes.io/hostname: 노드셀렉터 지정 노드
+
+persistence:
+  enabled: true
+  storageClass: local-path
+  size: 10Gi
+
+resources:
+  limits:
+    cpu: "500m"
+    memory: "1Gi"
+  requests:
+    cpu: "250m"
+    memory: "512Mi"

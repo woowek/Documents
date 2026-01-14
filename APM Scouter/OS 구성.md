@@ -62,7 +62,7 @@
     * 사이트 : https://scouter-contrib.github.io/scouter-paper/manual.html
     * https://github.com/scouter-contrib/scouter-paper/releases 에서 다운로드
     * yum install unzip
-    * http://10.0.50.21:6188/extweb/index.html
+    * http://아이피:6188/extweb/index.html
     * 사용 포트 : TCP 6188, 6180
         - firewall-cmd --permanent --zone=public --add-port=6188/tcp
         - firewall-cmd --permanent --zone=public --add-port=6180/tcp

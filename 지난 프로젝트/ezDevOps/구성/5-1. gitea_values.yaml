@@ -1,0 +1,80 @@
+gitea:
+  config:
+    server:
+      PROTOCOL: http
+      ENABLE_HTTPS: false
+      HTTP_PORT: 3000
+  admin:
+    username: admin
+    password: dusrnth1@
+  # 최소 리소스 설정: 낮은 요청/제한으로 리소스 절약
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "128Mi"
+    limits:
+      cpu: "200m"
+      memory: "256Mi"
+  # 영구저장소는 가능하면 유지(데이터 유실 방지), 작게 설정
+  persistence:
+    enabled: true
+    size: 1Gi
+    accessMode: ReadWriteOnce
+
+# 내장 PostgreSQL 사용 시 최소화 설정
+postgresql:
+  enabled: true
+  auth:
+    database: gitea
+    username: gitea
+    password: gitea_password_minimal
+  primary:
+    replicaCount: 1
+    nodeSelector:
+      kubernetes.io/hostname: lab-dev-work1
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "128Mi"
+      limits:
+        cpu: "250m"
+        memory: "256Mi"
+    persistence:
+      enabled: true
+      size: 1Gi
+
+postgresql-ha:
+  enabled: false
+
+# 서비스 설정 (기존 유지, ClusterIP로 비용 최소화)
+service:
+  http:
+    enabled: true
+    type: NodePort
+    port: 3000
+    nodePort: 30100
+  https:
+    enabled: false
+    type: NodePort
+    port: 443
+    nodePort: 30101
+
+valkey-cluster:
+  cluster:
+    nodes: 1
+  valkey:
+    nodeSelector:
+      kubernetes.io/hostname: lab-dev-work1
+      
+ingress:
+  enabled: false
+
+nodeSelector:
+  kubernetes.io/hostname: lab-dev-work1
+
+# 추가로 비활성화 권장 항목(환경에 맞게 사용):
+# - serviceMonitor / prometheus 연동 비활성화
+# - 불필요한 Sidecar / Metrics Exporter 제거
+serviceMonitor:
+  enabled: false

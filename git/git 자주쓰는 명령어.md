@@ -12,7 +12,7 @@ git 자주쓰는 명령어
 - 로컬 작업 영역
     - remote add
     ```bash
-    $git remote add origin administrator@10.0.102.105:d:git/ezCareRVacc.git
+    $git remote add origin administrator@아이피:d:git/ezCareRVacc.git
     ```
     - add, commit, push
     ```bash
@@ -68,7 +68,7 @@ git 자주쓰는 명령어
     ```
     ex)
     ```bash
-    $git clone administrator@10.0.102.105:d:git/ezCareRVacc
+    $git clone administrator@아이피:d:git/ezCareRVacc
     ```
 - status
     - 상태 확인

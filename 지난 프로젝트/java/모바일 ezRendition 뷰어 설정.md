@@ -19,5 +19,5 @@
     - ex) 모바일 서버 설치 경로 : /home/jmocha/ezEKP/ezFlow/webapps2/ezMobile
     ```bash
     $mkdir ezRendition
-    $mount -t cifs -o user='administrator',password='kaoni123!@#' //10.0.110.71/ezRendition ezRendition
+    $mount -t cifs -o user='administrator',password='kaoni123!@#' //아이피/ezRendition ezRendition
     ```

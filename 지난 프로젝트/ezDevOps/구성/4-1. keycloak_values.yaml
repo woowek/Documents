@@ -1,0 +1,70 @@
+replicaCount: 1
+
+extraEnvVars:
+  - name: KC_PROXY
+    value: "edge"
+  - name: KC_HTTP_PORT
+    value: "8080"
+  - name: KC_HTTPS_PORT
+    value: "8443"
+  - name: KC_HOSTNAME_STRICT
+    value: "false"
+  - name: KC_HOSTNAME_STRICT_HTTPS
+    value: "false"
+
+tls:
+  enabled: false
+
+nodeSelector:
+  kubernetes.io/hostname: lab-dev-work3
+
+auth:
+  adminUser: admin
+  adminPassword: "dusrnth1@"
+
+postgresql:
+  enabled: true
+  primary:
+    nodeSelector:
+      kubernetes.io/hostname: lab-dev-work3
+    persistence:
+      size: 1Gi
+    resources:
+      limits:
+        cpu: "200m"
+        memory: "256Mi"
+      requests:
+        cpu: "100m"
+        memory: "192Mi"
+  replication:
+    enabled: false
+  backup:
+    enabled: false
+
+# Keycloak 자체 persistence (작은 볼륨)
+persistence:
+  enabled: true
+  size: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClass: "" # 필요시 지정
+
+# HPA 비활성화: 저자원/개발 환경 기준
+hpa:
+  enabled: false
+
+containerPorts:
+  http: 8080
+  https: 8443
+
+service:
+  type: NodePort
+  ports:
+    http: 8080
+    https: 8443
+  nodePorts:
+    http: 30000
+    https: 30001
+
+ingress:
+  enabled: false
