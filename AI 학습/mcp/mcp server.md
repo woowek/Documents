@@ -297,7 +297,89 @@
         ```
 
 
+- MCP서버를 이용한 함수호출
+    * 일단 로스트아크 API 호출로 테스트를 해봤다.
+    * 단일 함수 호출은 잘 되는걸 확인했다..
+    * 다만 그 함수 내부 함수호출의 처리가 필요한 경우 이상한 답을 내놓기 시작을 했다.
+    * 이것저것 찾아봤는데 결국 LLM 처음 호출 때 전달하는 system prompt 의 정제가 필요하단걸 알았디..
 
 
 
+- ReAct 패턴
+    * 내가 필요한 내용에 대한 해답이 될고같다.
+    * 대충 내용은 내가 제시한 질문에 대해 필요한 함수를 계속 재호출 하면서 처리를 한다.
+    * 점점 어려워진다......
+    * AI한테 재구성 요청한 결과이다.
+    ```
+    mcpClient/
+    ├── react/                          # ✨ ReAct 엔진
+    │   ├── __init__.py
+    │   ├── agent.py                    # ReAct Agent 로직
+    │   └── message_manager.py          # 대화 메시지 관리
+    ├── prompts/
+    │   ├── __init__.py                 # (업데이트)
+    │   └── react_prompts.py            # ✨ ReAct 전용 프롬프트
+    ├── utils/
+    │   ├── __init__.py                 # ✨ 새로 생성
+    │   └── tool_converter.py           # ✨ MCP → Ollama 변환
+    └── client.py                       # (완전 리팩토링)
 
+    루트/
+    ├── REACT_GUIDE.md                  # ✨ 상세 가이드
+    ├── QUICK_START.md                  # ✨ 빠른 시작
+    ├── test_react.py                   # ✨ 테스트 스크립트
+    ├── requirements.txt                # (ollama 추가)
+    └── .env                            # (ReAct 설정 추가
+    ```
+    
+    - LLM에서 MCP 함수 호출을 위한 함수처리를  AI한테 맡겼더니  ollama.client.chat  함수를 쓰는데 문제는 지원 모델이 한정적이다. 물론 OLLAMA_HOST/api/chat API도 호출이 안된다.
+        * ollama.client.chat 함수를 쓰는 이유는 MCP 함수 처리 시 json 과 닽은 형태로 구조화 하려했던건데 한글처리를 위해서는 이 형태의 처리가 불가능한가보다..
+    - llama3.1:8b 모델에서만 ollama.chat 함수를 쓸 수 있는데 한국어 지원을 정상적으로 지원하지 않는다.
+    - 결국 OLLAMA_HOST/api/generate API를 사용해야한다.
+
+
+
+- 함수 중첩 처리에 대한 고찰..
+    * 질문을 복합패턴을 사용하도록 질문을 던져봤다.
+        * 그 결과 질문 각각의 함수 하나씩만 처리를 했다. 난 루프 처리하는걸 원했는데...
+        * 그래서 AI한테 물어봤다.. 많은 질문을 했지먄 결국 결론은 다음과 같다.
+    * 결론
+        - "내 캐릭터 원정대 모두의 장비를 보여줘" 라는 질문을 했을 때
+        - 원정대 캐릭터 모두의 장비를 조회하는 함수를 만들어야지, 원정대 목록 조회와 장비 조회를 LLM이서 중첩호출하는걸 기대해서는 안된다.
+        - 다만 "내 캐릭터의 원정대와 내 캐릭터의 장비 목록을 보여줘" 라는 질문을 했을 때는 LLM이 처리가 가능하다.
+        - 이 작업을 위한 layer 아키텍처가 있다곤 하지만 이도 결국 MCP 함수 구성에 쓰이는거지 LLM에서 알아서 인식하도록은 할 수 없다.
+
+- 이 함수 중첩에 대한 내용에 따라 MCP 서버의 구성도 바꿔야한다..
+    * AI 문의 후 얻은 구조는 다음과 같다.
+    ```
+    mcpSample/
+    ├── mcpServer/
+    │   ├── server.py                    # MCP 서버 엔트리포인트
+    │   │
+    │   ├── infrastructure/              # Layer 1: API 클라이언트 (공통)
+    │   │   ├── __init__.py
+    │   │   └── lostark_api_client.py   # 로스트아크 API 호출만
+    │   │
+    │   ├── services/                    # Layer 2: 비즈니스 로직 (재사용)
+    │   │   ├── __init__.py
+    │   │   ├── expedition_service.py   # 원정대 관련 로직
+    │   │   ├── character_service.py    # 캐릭터 관련 로직
+    │   │   ├── auction_service.py      # 경매장 관련 로직
+    │   │   ├── market_service.py       # 거래소 관련 로직
+    │   │   └── guild_service.py        # 길드 관련 로직
+    │   │
+    │   ├── formatters/                  # Layer 3: 포맷터 (출력)
+    │   │   ├── __init__.py
+    │   │   └── markdown_formatter.py   # Markdown 변환
+    │   │
+    │   └── tools/                       # Layer 4: MCP 도구 (도메인별 분류)
+    │       ├── __init__.py
+    │       ├── expedition_tools.py     # 원정대 도구 모음 (5-10개)
+    │       ├── character_tools.py      # 캐릭터 도구 모음 (5-10개)
+    │       ├── auction_tools.py        # 경매장 도구 모음 (5-10개)
+    │       ├── market_tools.py         # 거래소 도구 모음 (5-10개)
+    │       └── guild_tools.py          # 길드 도구 모음 (5-10개)
+    │
+    ├── .env
+    └── requirements.txt
+    ```
